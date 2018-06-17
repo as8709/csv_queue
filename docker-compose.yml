@@ -1,0 +1,13 @@
+version: '3'
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+  web:
+    build: ./web
+    ports:
+      - "80:80"
+  db:
+    build: ./db
