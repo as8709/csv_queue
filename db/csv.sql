@@ -4,3 +4,4 @@ CREATE TABLE Emails (
     Email VARCHAR(320),
     UNIQUE (Email)
 );
+CREATE USER csv WITH PASSWORD 'csv_pw'
