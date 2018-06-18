@@ -9,5 +9,13 @@ services:
     build: ./web
     ports:
       - "80:80"
+    depends_on:
+      - "rabbitmq"
   db:
     build: ./db
+  worker:
+    build: ./worker
+    depends_on:
+      - "rabbitmq"
+      - "db"
+    restart: on-failure
