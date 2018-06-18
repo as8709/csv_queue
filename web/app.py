@@ -14,7 +14,7 @@ def root():
 @app.route("/upload", methods=['POST'])
 def upload():
     file = request.files["file"]
-    r = csv_queue.CsvReader(secure_filename(file.filename),
+    r = csv_queue.CsvReader(file.read().decode("utf-8"),
         os.getenv("QUEUE_NAME"),
         os.getenv("QUEUE_IP")
     )
