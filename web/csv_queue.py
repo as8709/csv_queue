@@ -23,13 +23,13 @@ parser.add_argument('--queue_ip', default="localhost", help="ip address of the m
 #######################################################################################
 
 class CsvReader():
-    '''Class for reading a csv file, serialising it and publishing it to the given queue'''
+    '''Class for reading from an open csv file, serialising it and publishing it to the given queue'''
 
-    def __init__(self, filename, queue_name, queue_ip):
+    def __init__(self, csvfile, queue_name, queue_ip):
         self.queue_name = queue_name
         self.queue_ip = queue_ip
-        with open(filename) as csvfile:
-            self.rows = list(csv.reader(csvfile))
+        
+        self.rows = list(csv.reader(csvfile))
 
     def send(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters(self.queue_ip))
@@ -52,5 +52,6 @@ class CsvReader():
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    reader = CsvReader(args.csv_filename, args.queue_name, args.queue_ip)
-    reader.send()
+    with  open(args.csv_filename) as csvfile:
+        reader = CsvReader(csvfile, args.queue_name, args.queue_ip)
+        reader.send()

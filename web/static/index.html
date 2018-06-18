@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<form enctype="multipart/form-data" method="post" id="uploadfile">
+<form action="/upload" enctype="multipart/form-data" method="post" id="uploadfile">
  <div>
    <label for="file">Choose CSV file to upload</label>
-   <input type="file" id="file_input" />
+   <input type="file" name="file" />
  </div>
  <div>
    <button>Submit</button>
@@ -11,24 +11,3 @@
 </form>
 </html>
 
-<script>
-var uploadfile = document.querySelector('#uploadfile');
-uploadfile.addEventListener('submit', function (evt) {
-    evt.preventDefault() // stop the default post
-    uploadFile(document.querySelector('#file_input').files[0]); // call the function to upload the file
-}, false)
-function uploadFile(file){
-    var url = '/upload';
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-type", "application/json")
-    xhr.setRequestHeader("Data-type", "json")
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Every thing ok, file uploaded
-            console.log(xhr.responseText); // handle response.
-        }
-    };
-    xhr.send({"file": file});
-}
-</script>
