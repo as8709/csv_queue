@@ -1,6 +1,7 @@
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 import os
+import io
 
 import csv_queue
 
@@ -14,7 +15,9 @@ def root():
 @app.route("/upload", methods=['POST'])
 def upload():
     file = request.files["file"]
-    r = csv_queue.CsvReader(file.read().decode("utf-8"),
+    file_data = io.StringIO(file.stream.read().decode("utf-8"))
+
+    r = csv_queue.CsvReader(file_data,
         os.getenv("QUEUE_NAME"),
         os.getenv("QUEUE_IP")
     )

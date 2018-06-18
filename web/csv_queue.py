@@ -29,7 +29,7 @@ class CsvReader():
         self.queue_name = queue_name
         self.queue_ip = queue_ip
         
-        self.rows = list(csv.reader(csvfile))
+        self.rows = csv.reader(csvfile)
 
     def send(self):
         connection = pika.BlockingConnection(pika.ConnectionParameters(self.queue_ip))
