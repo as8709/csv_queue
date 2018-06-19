@@ -1,7 +1,10 @@
-CREATE DATABASE csv_db;
-CREATE TABLE Emails (
-    Name VARCHAR(255),
-    Email VARCHAR(320),
-    UNIQUE (Email)
+CREATE USER csv WITH PASSWORD 'csv_pw';
+CREATE DATABASE csv_db owner csv;
+\connect csv_db
+CREATE TABLE emails (
+    name VARCHAR(255),
+    email VARCHAR(320),
+    UNIQUE (email)
 );
-CREATE USER csv WITH PASSWORD 'csv_pw'
+GRANT all privileges ON TABLE emails to csv;
+\disconnect
