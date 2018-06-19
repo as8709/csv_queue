@@ -13,9 +13,13 @@ services:
       - "rabbitmq"
   db:
     build: ./db
-  worker:
+  worker_1:
     build: ./worker
     depends_on:
       - "rabbitmq"
       - "db"
-    restart: on-failure
+  worker_2:
+    build: ./worker
+    depends_on:
+      - "rabbitmq"
+      - "db"
