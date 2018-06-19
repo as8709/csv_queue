@@ -62,8 +62,13 @@ class Worker():
 
         if self.is_valid_entry(body):
             try:
+                # starts a transaction if one hasn't already been started
+                # as we commit or rollback after each insert this should always
+                # be starting a new transaction
                 with self.conn.cursor() as cur:
                     cur.execute("INSERT INTO emails VALUES(%s, %s)", (body[0], body[1]))
+                    # commit the transaction, unlocking the table for other connections
+                    self.conn.commit()
             except psycopg2.IntegrityError:
                 # TODO what is expected behaviour on conflict?
                 self.conn.rollback()
